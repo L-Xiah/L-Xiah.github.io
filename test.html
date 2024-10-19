@@ -1,1 +1,34 @@
-<h1> L-Xiah </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>L-Xiah</title>
+</head>
+<body>
+    <p id="myText">Initial Text</p>
+    <button onclick="changeText()">Change Text</button>
+
+  <script>
+        const targetNode = document.getElementById('myText');
+
+        // 监听自定义事件
+        targetNode.addEventListener('textChange', (event) => {
+            console.log('Text content changed to:', event.detail.newText);
+        });
+
+        function changeText() {
+            const newText = 'Text has been changed!';
+            targetNode.textContent = newText;
+
+            // 触发自定义事件
+            const event = new CustomEvent('textChange', {
+                detail: { newText: newText }
+            });
+            targetNode.dispatchEvent(event);
+        }
+    </script>
+</body>
+</html>
+
+
+
