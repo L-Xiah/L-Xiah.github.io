@@ -7,6 +7,9 @@
 </head>
 <body>
     <p id="myPText">Initial Text</p>
+    <a href="https://www.baidu.com/" target="_blank">百度一下</a>
+    <a href="https://www.google.com/" target="_blank">Google</a>
+    <p>Initial Text...</p>
     <input id="myInputText" type="text" placeholder="Please input your key..." data-component="input" class="UnstyledTextInput-sc-14ypya-0 kbCLEG" value="key...">
     <button onclick="changeText()">Change Text</button>
 
@@ -20,46 +23,18 @@
         const targetNode = document.getElementById('myInputText');
 
         function changeText() {
-            
-            var decrypt = new JSEncrypt()//创建解密对象实例
-            var priKey = '-----BEGIN PRIVATE KEY-----' +
-            'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANEuLaxGCF1SlWEG' +
-            '0GVhdw8wvHIEPnVlPJ2wzCkwy+6qYpnYjINnR4kPvP0THGQkxRnaTAmh6FHiywEp' +
-            'EVkGwLc9XBxSjvsI/vlH+YGaZoE8cL9uHe2SC0HeIOBJbz/HgVbb9xYvbYTSch1w' +
-            '2iD4KSo6a49x/R2+x7HF+FiZsfDbAgMBAAECgYB+5WGlqZJ3cprWEnknl1nPqEQZ' +
-            'csOlGfYMv20K6+Q687f/FmQfbu7xkc+XQxmtErVTOp94FHVH/6ohGRXCCRustKax' +
-            'WrhBNmuX6xeOIDSm3Q0yIr0cdCXAwAlF5g31q5hNXOV0VP7Cbjg9HhpTExMI2RWN' +
-            'b/UnZSoLIv5S+rRY0QJBAO+5en5LHDXfLzhriySyZxJX3F6sePghu7utCQoNxvoU' +
-            'OmmJscRiASwXjzZzxqsQdfdmMzZdVvwGnIfCBzN16cMCQQDfYdQuLvgvHVpm7INp' +
-            '4fsAQwrrPAQYZPtY4djcl7xxGjHjUbCQcwBCf36fureH07Wh7/j9bMUXSmOHkfC6' +
-            'i9MJAkEAyQ+g7IIkxA5P9ZtFld7H0ju8ye8QetUYNv2XQkZx59fFcjUZ0yN75jZQ' +
-            'WJRcQafJuVmPhH5e8Xy+FqMnFQNFrwJAayOXygLbJHXWqzDbIsixQ4HkVcj2SeD9' +
-            'MLc59SuNxU2ECfxfTBjsUfimeePrLOlc32uip6IosbALJrXXmRGBSQJAKcUcvg2o' +
-            'YzM5lMcO3pasdF3Uswnjmf4cKktVnrZaUBIRj9hkgx5+kNDznVUStH7Z4qz212ix' +
-            'iqLkJPbk8Uzszw==' +
-            '-----END PRIVATE KEY-----';
-            decrypt.setPrivateKey(priKey)//设置秘钥
-            var uncrypted = decrypt.decrypt(targetNode.value)//解密之前拿公钥加密的内容
-            
-            var theDate = new Date();
-            var theDateStr = formatDate(theDate);
 
-            if(theDateStr == uncrypted) {
-              const newText = 'Text has been changed!';
-              targetNodeP.textContent = newText;
-            }
-            
 
         }
 
 
       
-function formatDate(date) {
-    let year = date.getFullYear();
-    let month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1
-    let day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-}
+        function formatDate(date) {
+            let year = date.getFullYear();
+            let month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1
+            let day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
 
       
     </script>
