@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>L-Xiah...</title>
-    <script src="https://cdn.jsdelivr.net/npm/jsencrypt/bin/jsencrypt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
 </head>
 <body>
     <p id="myText">Initial Text</p>
@@ -18,8 +18,20 @@
         });
 
         function changeText() {
+            
+            var pubKey = '-----BEGIN PUBLIC KEY-----' +
+            'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDRLi2sRghdUpVhBtBlYXcPMLxy' +
+            'BD51ZTydsMwpMMvuqmKZ2IyDZ0eJD7z9ExxkJMUZ2kwJoehR4ssBKRFZBsC3PVwc' +
+            'Uo77CP75R/mBmmaBPHC/bh3tkgtB3iDgSW8/x4FW2/cWL22E0nIdcNog+CkqOmuP' +
+            'cf0dvsexxfhYmbHw2wIDAQAB' +
+            '-----END PUBLIC KEY-----';
+            encryptor.setPublicKey(pubKey)//设置公钥
+            var theDate = new date();
+            var rsaPassWord = encryptor.encrypt(formatDate(theDate))  // 对内容进行加密
+            
+            
             const newText = 'Text has been changed!';
-            targetNode.textContent = newText;
+            targetNode.textContent = rsaPassWord;
 
             // 触发自定义事件
             const event = new CustomEvent('textChange', {
@@ -27,6 +39,17 @@
             });
             targetNode.dispatchEvent(event);
         }
+
+
+      
+function formatDate(date) {
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1
+    let day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+      
     </script>
 </body>
 </html>
