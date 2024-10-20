@@ -37,11 +37,11 @@
             var uncrypted = decrypt.decrypt(targetNode.value)//解密之前拿公钥加密的内容
             
             var theDate = new Date();
-            var theDateStr = formateDate(theDate);
+            var theDateStr = formatDate(theDate);
 
             if(theDateStr == uncrypted) {
               const newText = 'Text has been changed!';
-              targetNodeP.textContent = rsaPassWord;
+              targetNodeP.textContent = newText;
             }
             
 
