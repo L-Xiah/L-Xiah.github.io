@@ -7,10 +7,13 @@
 </head>
 <body>
     <p id="myText">Initial Text</p>
+    <textarea id="myTextareaText" name="pubkey" rows="5" cols="33">
+    It was a dark and stormy night...
+    </textarea>
     <button onclick="changeText()">Change Text</button>
 
   <script>
-        const targetNode = document.getElementById('myText');
+        const targetNode = document.getElementById('myTextareaText');
 
         // 监听自定义事件
         targetNode.addEventListener('textChange', (event) => {
