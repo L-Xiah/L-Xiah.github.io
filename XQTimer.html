@@ -36,7 +36,7 @@
 <script>
 
 class ChessClock {
-    constructor(initialTimeInMinutes1,initialTimeInMinutes2,callBack1,callBack2) {
+    constructor(initialTimeInMinutes1,initialTimeInMinutes2,callBack1,callBack2,callBackEnd) {
         this.player1Time = initialTimeInMinutes1 * 60; // 转换为秒
         this.player2Time = initialTimeInMinutes2 * 60;
         this.activePlayer = 1; // 1表示P1，2表示P2
@@ -45,6 +45,7 @@ class ChessClock {
         this.timer = null;
         this.callBack1 = callBack1;
         this.callBack2 = callBack2;
+        this.callBackEnd = callBackEnd; // 结束
     }
 
     reSetTime(initialTimeInMinutes1,initialTimeInMinutes2) {
@@ -72,6 +73,7 @@ class ChessClock {
                 if (this.player1Time <= 0 || this.player2Time <= 0) {
                     this.isTimeOut = true;
                     this.stop();
+                    this.callBackEnd();
                 }
             }, 1000);
         }
@@ -105,7 +107,6 @@ class ChessClock {
 
 
 
-
 var the1Red = document.getElementById('the1Red');
 var the2Red = document.getElementById('the2Red');
 the2Red.style.visibility = 'hidden'; // 隐藏
@@ -121,10 +122,12 @@ function showTime2() {
 
 var p1Time = 20;
 var p2Time = 20;
-// 创建一个每方有30分钟的棋钟
-const clock = new ChessClock(p1Time,p2Time,showTime1,showTime2);
+// 创建一个每方有20分钟的棋钟
+const clock = new ChessClock(p1Time,p2Time,showTime1,showTime2,changeEnd);
 
-
+function changeEnd() {
+    document.getElementById("the0ButtonP").textContent = "end";
+}
 
 function changeRole(funI) {
 
@@ -149,8 +152,7 @@ function changeRole(funI) {
 
 function changePause() {
 
-    if (this.isTimeOut) {
-        document.getElementById("the0ButtonP").textContent = "end";
+    if (clock.isTimeOut) {
         return;
     }
 
