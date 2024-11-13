@@ -1,1 +1,199 @@
+<html lang="en" class="trancy-zh-CN"><head>
+    <meta charset="UTF-8">
+    <title>L-Xiah...</title>
+</head>
+<body>
+	
+<div style="margin-top: 50px;width: 100%;height: 1500px;position: relative;">
+    	<div id="theResetTimerDiv" style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;z-index: 9999;background-color: white;">
+		<button onclick="theResetTimerSave()" style="position: absolute;left: 45%;top: 40%;width: 10%;">OK</button>
+		<label style="position: absolute;left: 10%;top: 15%;">P1</label>
+		<label style="position: absolute;right: 10%;top: 15%;">P2</label>
+			
+		<input id="myInput1Text" type="text" placeholder="P1" data-component="input" class="UnstyledTextInput-sc-14ypya-0 kbCLEG" value="20" style="position: absolute;left: 10%;top: 20%;">
+		<input id="myInput2Text" type="text" placeholder="P2" data-component="input" class="UnstyledTextInput-sc-14ypya-0 kbCLEG" value="20" style="position: absolute;right: 10%;top: 20%;">
+    </div>
+    
+    <div id="the1Red" class="sticky-div" style="position: absolute;top: 1%;left: 3%;color: red;background-color: #ff0000;width: 10%;height: 10%;font-size: xxx-large;"></div>
+	<div id="the2Red" class="sticky-div" style="position: absolute;bottom: 0%;left: 3%;background-color: red;width: 10%;height: 10%;"></div>
+    
+    <label id="the1Label" style="display: block;margin-left: 30%;margin-right: 30%;width: 40%;height: 12%;text-align: center;align-content: center;font-size: xxx-large;rotate: 180deg;">20:00</label>  
 
+    <button id="the1Button" onclick="changeRole(1)" style="margin-left: 5%;margin-right: 5%;width: 90%;height: 35%;"> P1 </button>
+    
+	<div style="height: 6%;">
+	   <button id="the0ButtonP" onclick="changePause()" style="left: 10%;width: 20%;margin-top: 1%;margin-bottom: 1%;height: 4%;position: absolute;">Start</button>
+	   <button id="the0ButtonR" onclick="theResetTimerShow()" style="right: 10%;width: 20%;margin-top: 1%;margin-bottom: 1%;height: 4%;position: absolute;">Restart</button>
+	</div>
+
+	<button id="the2Button" onclick="changeRole(2)" style="margin-left: 5%;margin-right: 5%;width: 90%;height: 35%;">Change Red</button>
+      
+	<label id="the2Label" style="display: block;margin-left: 30%;margin-right: 30%;width: 40%;height: 12%;text-align: center;align-content: center;font-size: xxx-large;/* rotate: 180deg; */">20:00</label>
+  
+</div>
+
+    
+<script>
+
+class ChessClock {
+    constructor(initialTimeInMinutes1,initialTimeInMinutes2,callBack1,callBack2) {
+        this.player1Time = initialTimeInMinutes1 * 60; // 转换为秒
+        this.player2Time = initialTimeInMinutes2 * 60;
+        this.activePlayer = 1; // 1表示P1，2表示P2
+        this.isRunning = false;
+        this.isTimeOut = false; // 时间用完
+        this.timer = null;
+        this.callBack1 = callBack1;
+        this.callBack2 = callBack2;
+    }
+
+    reSetTime(initialTimeInMinutes1,initialTimeInMinutes2) {
+        this.player1Time = initialTimeInMinutes1 * 60; // 转换为秒
+        this.player2Time = initialTimeInMinutes2 * 60;
+        this.activePlayer = 1;
+        clearInterval(this.timer);
+        this.isRunning = false;
+        this.isTimeOut = false;
+    }
+
+
+    start() {
+        if (!this.isRunning) {
+            this.isRunning = true;
+            this.timer = setInterval(() => {
+                if (this.activePlayer === 1) {
+                    this.player1Time--;
+                    this.callBack1();
+                } else {
+                    this.player2Time--;
+                    this.callBack2();
+                }
+                
+                if (this.player1Time <= 0 || this.player2Time <= 0) {
+                    this.isTimeOut = true;
+                    this.stop();
+                }
+            }, 1000);
+        }
+    }
+
+    stop() {
+        if (this.isRunning) {
+            clearInterval(this.timer);
+            this.isRunning = false;
+        }
+    }
+
+    switchPlayer() {
+        this.activePlayer = this.activePlayer === 1 ? 2 : 1;
+    }
+
+    getTimeString(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    getPlayer1Time() {
+        return this.getTimeString(this.player1Time);
+    }
+
+    getPlayer2Time() {
+        return this.getTimeString(this.player2Time);
+    }
+}
+
+
+
+
+var the1Label = $("#the1Label");
+var the2Label = $("#the2Label");
+
+var the1Red = document.getElementById('the1Red');
+var the2Red = document.getElementById('the2Red');
+the2Red.style.visibility = 'hidden'; // 隐藏
+the1Red.style.visibility = 'visible'; // 显示
+
+function showTime1() {
+    the1Label.textContent = clock.getPlayer1Time();
+
+}
+function showTime2() {
+    the2Label.textContent = clock.getPlayer2Time();
+}
+
+var p1Time = 20;
+var p2Time = 20;
+// 创建一个每方有30分钟的棋钟
+const clock = new ChessClock(p1Time,p2Time,showTime1,showTime2);
+
+
+
+function changeRole(funI) {
+
+    if (!clock.isRunning) {
+        return;
+    }
+    if (clock.activePlayer != Number(funI)) {
+        return;
+    }
+
+    // 切换P1/P2
+    clock.switchPlayer();
+    if (clock.activePlayer === 1) {
+        the2Red.style.visibility = 'hidden'; // 隐藏
+        the1Red.style.visibility = 'visible'; // 显示
+    } else {
+        the1Red.style.visibility = 'hidden'; // 隐藏
+        the2Red.style.visibility = 'visible'; // 显示
+    }
+
+}
+
+function changePause() {
+
+    if (this.isTimeOut) {
+        document.getElementById("the0ButtonP").textContent = "end";
+        return;
+    }
+
+    // 暂停-开始
+    if (clock.isRunning) {
+        clock.stop();
+        document.getElementById("the0ButtonP").textContent = "Start";
+    } else {
+        clock.start();
+        document.getElementById("the0ButtonP").textContent = "Pause";
+    }
+}
+
+function changeRestart() {
+
+    clock.reSetTime(p1Time,p2Time);
+    the2Red.style.visibility = 'hidden'; // 隐藏
+    the1Red.style.visibility = 'visible'; // 显示
+    showTime1();
+    showTime2();
+}
+
+
+function theResetTimerShow() {
+    var tempObj = document.getElementById('theResetTimerDiv');
+    tempObj.style.visibility = 'visible'; // 显示
+}
+
+function theResetTimerSave() {
+    p1Time = Number(document.getElementById("myInput1Text").value);
+    p2Time = Number(document.getElementById("myInput2Text").value);
+    var tempObj = document.getElementById('theResetTimerDiv');
+    tempObj.style.visibility = 'hidden'; // 隐藏
+    document.getElementById("the0ButtonP").textContent = "Start";
+    changeRestart();
+}
+
+
+      
+</script>
+
+
+</body><link rel="stylesheet" asset="eduser.css" href="chrome-extension://aepdhbcjfkpncgbmlllcaloniioihlma/assets/eduser.css"><xt-button id="trancy-button" style="z-index: 2147483647; visibility: visible;"></xt-button></html>
