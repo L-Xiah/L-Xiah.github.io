@@ -106,20 +106,17 @@ class ChessClock {
 
 
 
-var the1Label = $("#the1Label");
-var the2Label = $("#the2Label");
-
 var the1Red = document.getElementById('the1Red');
 var the2Red = document.getElementById('the2Red');
 the2Red.style.visibility = 'hidden'; // 隐藏
 the1Red.style.visibility = 'visible'; // 显示
 
 function showTime1() {
-    the1Label.textContent = clock.getPlayer1Time();
+    document.getElementById('the1Label').textContent = clock.getPlayer1Time();
 
 }
 function showTime2() {
-    the2Label.textContent = clock.getPlayer2Time();
+    document.getElementById('the2Label').textContent = clock.getPlayer2Time();
 }
 
 var p1Time = 20;
